@@ -32,7 +32,14 @@ namespace CWRetail.Products.Data
 
         public async Task UpdateProduct(Product product)
         {
-            _productDbContext.Set<Product>().Update(product);
+            var productToUpdate = await GetProduct(product.Id);
+
+            productToUpdate.Name = product.Name;
+            productToUpdate.Price = product.Price;
+            productToUpdate.Type = product.Type;
+            productToUpdate.IsActive = product.IsActive;
+
+            _productDbContext.Set<Product>().Update(productToUpdate);
 
             await _productDbContext.SaveChangesAsync();
         }
